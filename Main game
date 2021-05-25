@@ -1,0 +1,104 @@
+import random
+
+print("Welcome to the arena")
+
+health = 5
+maxHealth = 5
+damageBase = 1
+defense = 0
+money = 0
+
+exitProgram = False
+while exitProgram == False:
+    print("\nYou have ", money, " gold")
+    print("You have ", health, " health\n")
+    
+    print("Choose an option:")
+    print("Press 1 to go into fight")
+    print("Press 2 to train")
+    print("Press 3 to rest")
+    print("Press 4 to check stats")
+    print("Press 5 to quit")
+    choice = input("please enter a number: ")
+
+    if choice == "1":
+        level = int(input("Please enter a difficulty level (enter 1 for your first fight): "))
+
+        enemyHealth = level*3
+        enemyDamageBase = level
+        reward = level*2
+        
+        while health > 0 and enemyHealth > 0:
+            print("Your health: ",health)
+            print("Enemy health: ",enemyHealth)
+            fightChoice = input("1 to attack, 2 to run away: ")
+            if fightChoice == "1":
+                damage = damageBase*random.randint(2,4)
+                enemyDamage = enemyDamageBase*random.randint(2,4) - defense
+                if enemyDamage < 0:
+                    enemyDamage = 0
+                enemyHealth = enemyHealth - damage
+                health = health - enemyDamage
+                print("\nYou deal ",damage, " damage")
+                print("You receive ",enemyDamage, " damage\n")
+
+            elif fightChoice == "2":
+                exit
+
+            if enemyHealth < 1 and health > 0:
+                money = money + reward
+                print("You won! You collect ", reward, " gold.")
+                print("Your health is ", health)
+
+            elif enemyHealth < 0 and health > 1:
+                money = 0
+                print("You lost! You lose all your money")
+                print("\nThe enemy health is ", enemyHealth)
+                
+            
+
+    elif choice == "2":
+        print("Press 1 to increase health")
+        print("Press 2 to damage")
+        print("Press 3 to increase defense")
+        
+        trainingChoice = input("please enter a number: ")
+
+        
+        if trainingChoice == "1":
+            print("The cost will be ", maxHealth*2)
+            increaseHealth = input("y or n: ")
+            if increaseHealth == "y":
+                money = money - maxHealth*2
+                maxHealth += 5
+        elif trainingChoice == "2":
+            print("The cost will be ", damageBase*5)
+            increaseDamage = input("y or n: ")
+            if increaseDamage == "y":
+                money = money - damageBase*5
+                damageBase += 1
+                
+        elif trainingChoice == "3":
+            print("The cost will be ", defense*5)
+            increaseDefense = input("y or n: ")
+            if increaseDefense == "y":
+                money = money - defense*5
+                defense += 1
+                
+        
+        
+
+    elif choice == "3":
+        health = maxHealth
+        
+    elif choice == "4":
+        print("\nHealth: ",maxHealth)
+        print("Base damage: ",damageBase)
+        print("Defense: ",defense)
+        
+
+    elif choice == "5":
+        exitProgram = True
+
+    else:
+        print("Please select a choice between 1 and 3")
